@@ -1,6 +1,6 @@
-function [ dH ] = objective( x0  )    
-  n = x0(1);
-  A = 10^x0(2);
+function [ dH ] = objective_rescaled_n( x0 )    
+  n = 3;%x0(1)/10;
+  A = 10^x0(1);
   [H_our, H_obs] = delta_H(n, A);
   %size(H_our) 3
   diff = H_our-H_obs;
