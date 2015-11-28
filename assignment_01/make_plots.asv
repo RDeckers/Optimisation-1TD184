@@ -1,0 +1,35 @@
+function [] = make_plots()
+figure(1)
+x = [25:0.025:35];
+y = [-27:0.05:-23];
+[X, Y] = meshgrid(x,y);
+Z = arrayfun(@objective_rescaled, X, Y);
+hold on;
+h= pcolor(X, Y, Z);
+set(h,'edgecolor','none')
+[C,hfigc] = contour(X, Y, Z);
+set(hfigc, ...
+    'LineWidth',1.0, ...
+    'Color', [1 1 1]);
+hold off;
+hcb = colorbar('location','EastOutside');
+figure(2)
+y_fixed_A = arrayfun(@objective_rescaled_n, x);
+plot(x, y_fixed_A, 'k');
+hold on;
+min_minunc = fminunc(@objective_rescaled_n, 3);
+min_lsqnonlin = lsqnonlin(@objective_rescaled_n, 3)
+plot([min_minunc min_minunc], [min([y_fixed_A(:)]) max([y_fixed_A(:)])],'b');
+axis([min([x(:)]) max([x(:)]) min([y_fixed_A(:)]) max([y_fixed_A(:)])]);
+plot([min_lsqnonlin min_lsqnonlin], [min([y_fixed_A(:)]) max([y_fixed_A(:)])],'--r');
+axis([min([x(:)]) max([x(:)]) min([y_fixed_A(:)]) max([y_fixed_A(:)])]);
+figure(3)
+y_fixed_N = arrayfun(@objective_rescaled_A, y);
+plot(y, y_fixed_N);
+min_minunc = fminunc(@objective_rescaled_n, 3);
+min_lsqnonlin = lsqnonlin(@objective_rescaled_n, 3)
+hold on;
+plot([z3 z3], [min([y_fixed_N(:)]) max([y_fixed_N(:)])], ':k');
+axis([min([y(:)]) max([y(:)]) min([y_fixed_N(:)]) max([y_fixed_N(:)])]);
+end
+

@@ -19,12 +19,12 @@ function [x,resnorm,residual,xOld] = levmarqrok(func,x0,varargin)
 %       'trfactor'  = factor with which we change \mu
 
 % Read Options --------------------------------------------------------
-options = struct('maxiter',100,...
+options = struct('maxiter',10000,...
                  'tolerance',1e-6,...
-                 'initu',1,...
+                 'initu',1e-2,...
                  'tr1',1/4,...
                  'tr2',3/4,...
-                 'trfactor',10); % define defaults
+                 'trfactor',2); % define defaults
 
 optionNames = fieldnames(options); % read the acceptable names
 
@@ -75,11 +75,12 @@ for i = 1:maxIter
     % get the gradient of the residual
     if nargout(f) == 1
         gres = zeros(length(x0),length(residual));
+        x1 = x; x2 = x
         for j = 1:length(x0)
-            x1 = x; x2 = x;
-            x1(j) = x1(j) + x(j)*1e-5; %Check these numbers
-            x2(j) = x2(j) - x(j)*1e-5;
-            gres(j,:) = (f(x1) - f(x2)) / (x1(j)-x2(j));
+            dx = x(j) * 1e-5;
+            x1(j) = x1(j) + dx; %Check these numbers
+            x2(j) = x2(j) - dx;
+            gres(j,:) = (f(x1) - f(x2)) / (2*dx);
         end
     elseif nargout(f) == 2
         [~, gres] = f(x);
@@ -100,10 +101,10 @@ for i = 1:maxIter
     
     % update u
     if abs(rho) <= tr1 %|| w > 0
-        u = trfactor*u;
+        u = u*11;%u;
         disp('Enlarging u!');
     elseif abs(rho) >= tr2
-        u = u/trfactor;
+        u = u/9;%;//trfactor;
         disp('Reducing u!');
     end
     
