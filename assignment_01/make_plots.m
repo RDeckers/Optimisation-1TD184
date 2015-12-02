@@ -25,21 +25,21 @@ options = optimoptions('lsqnonlin');
 options.OutputFcn = @history_tracker;
 options.MaxFunEvals = 10000;
 options.Algorithm = 'levenberg-marquardt';
-point1 = lsqnonlin(@objective_rescaled, [10, -25],[],[],options)
-history_x1 = history_x
-history_y1 = history_y
-point2 = lsqnonlin(@objective_rescaled, [30, -25],[],[],options)
+
+[point1,a,b,c,d] = lsqnonlin(@objective_rescaled, [10, -25],[],[],options)
+history_x1 = history_x;
+history_y1 = history_y;
+[point2,a,b,c,d] = lsqnonlin(@objective_rescaled, [30, -25],[],[],options)
 history_x2 = history_x;
 history_y2 = history_y;
 range_x = [min([history_x1 history_x2 point1(1) point2(1)]) max([history_x1 history_x1 point1(1) point2(1)])]
 dx = (range_x(2) - range_x(1))/100;
 range_y = [min([history_y1 history_y2 point1(2) point2(2)]) max([history_y1 history_y2 point1(2) point2(2)])]
 dy = (range_y(2) - range_y(1))/100;
-options.Algorithm = 'levenberg-marquardt';
 %point3 = lsqnonlin(@objective_rescaled, [10, -25],[],[], options)
 %point4 = lsqnonlin(@objective_rescaled, [30, -25],[],[], options)
-x = range_x(1)-5*dx:dx:range_x(2)+5*dx
-y = range_y(1)-5*dy:dy:range_y(2)+5*dy
+x = range_x(1)-5*dx:dx:range_x(2)+5*dx;
+y = range_y(1)-5*dy:dy:range_y(2)+5*dy;
 [X, Y] = meshgrid(x,y);
 Z = arrayfun(@objective_rescaled_dual, X, Y);
 hold on;
@@ -56,11 +56,11 @@ hcb = colorbar('location','EastOutside');
 
 figure(2)
 hold on;
-min_minunc = fminunc(@objective_rescaled_n, 10, options);
-history_x1 = history_x
+min_minunc = fminunc(@objective_rescaled_n, 10, options)
+history_x1 = history_x;
 history_y1 = arrayfun(@objective_rescaled_n, history_x1);
 min_lsqnonlin = lsqnonlin(@objective_rescaled_n, 10, [], [], options)
-history_x2 = history_x
+history_x2 = history_x;
 history_y2 = arrayfun(@objective_rescaled_n, history_x2);
 
 range_x = [min([history_x1 history_x2]) max([history_x1 history_x1])]
@@ -81,18 +81,18 @@ plot([min_lsqnonlin min_lsqnonlin], [min([y_fixed_A(:)]) max([y_fixed_A(:)])],'-
 axis([min([x(:)]) max([x(:)]) min([y_fixed_A(:)]) max([y_fixed_A(:)])]);
 
 figure(3)
-min_minunc = fminunc(@objective_rescaled_A, -25, options);
-history_x1 = history_x
+min_minunc = fminunc(@objective_rescaled_A, -25, options)
+history_x1 = history_x;
 history_y1 = arrayfun(@objective_rescaled_A, history_x1);
 min_lsqnonlin = lsqnonlin(@objective_rescaled_A, -25, [], [], options)
-history_x2 = history_x
+history_x2 = history_x;
 history_y2 = arrayfun(@objective_rescaled_A, history_x2);
 range_x = [min([history_x1 history_x2]) max([history_x1 history_x1])]
 dx = (range_x(2) - range_x(1))/100;
 range_y = [min([history_y1 history_y2]) max([history_y1 history_y2])]
 dy = (range_y(2) - range_y(1))/100;
-x = range_x(1)-5*dx:dx:range_x(2)+5*dx
-y = range_y(1)-5*dy:dy:range_y(2)+5*dy
+x = range_x(1)-5*dx:dx:range_x(2)+5*dx;
+y = range_y(1)-5*dy:dy:range_y(2)+5*dy;
 
 y_fixed_N = arrayfun(@objective_rescaled_A, x);
 hold on;
