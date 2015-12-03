@@ -118,4 +118,29 @@ function [] = make_results()
   plot(X, S, '-o') %sigma vs rho
   figure(3)
   plot(X2, S2, '-*')
+  
+  disp('Generating extra graphs of delta_r...')
+  R = 0.01:0.001:0.15;
+  S2 = [];
+  X2 = [];
+  S = [];
+  X = [];
+  for r = R
+    [w, x_lambda, r_final, sigma, optim,lambda, ef ] = min_rho(r, 0);
+    if ef >= 0 %if sucessfully computed
+      X = [X r];
+      S = [S r_final-r];
+    end
+    [w, x_lambda, r_final, sigma, optim,lambda, ef ] = min_rho(r, 1);
+    if ef >= 0
+      X2 = [X2 r];
+      S2 = [S2 r_final-r];
+    end
+  end
+  figure(4)
+  clf();
+  hold on;  
+  plot(X, S) %sigma vs rho
+  plot(X2, S2)
+  
 end
