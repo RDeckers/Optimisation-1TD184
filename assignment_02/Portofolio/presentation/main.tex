@@ -80,7 +80,7 @@
 \begin{frame}{Minimizing Variance}
   Play it safe, try to get the most 'stable' rate-of-return.
   \begin{itemize}
-    \item{Minimize "\vec w^T \boldsymbol{\sigma} \vec w$" with respect to $\vec w$, under the constraint that $\sum w_i = 1$.}
+    \item{Minimize $\vec w^T \boldsymbol{\sigma} \vec w$ with respect to $\vec w$, under the constraint that $\sum w_i = 1$.}
     \begin{itemize}
       \item{Write constraint as ${\mb A}\vec w = b$, where ${\mb A} = \vec 1$, $b = 1$.}
     \end{itemize}
@@ -97,18 +97,80 @@
       \end{pmatrix}
     \end{align*}
     }
-    \item{Without short selling: Additional constraint, solve with Matlab's {\em quadprog}.}
+    \item{Without short selling: additional constraint, solve with Matlab's {\em quadprog}.}
   \end{itemize}
+\end{frame}
 
+\begin{frame}{Minimizing Variance}
+  With short-selling:
+  \begin{align*}
+    \vec x^* = \vec w = \begin{pmatrix}
+    0.3198\\
+    0.7213\\
+    0.0350\\
+    -0.0708\\
+    -0.0052\\
+    \end{pmatrix},\quad \bar r = 0.0792 \pm 0.0627
+  \end{align*}
+\end{frame}
+
+\begin{frame}{Minimizing Variance}
+  Without short-selling:
+  \begin{align*}
+    \vec w = \begin{pmatrix}
+    0.2922\\
+  0.6540\\
+  0.0278\\
+ -0.0000\\
+  0.0259\\
+    \end{pmatrix},\quad \bar r = 0.0788 \pm 0.0636
+  \end{align*}
 \end{frame}
 
 \begin{frame}{Fixed Target Returns}
+  \begin{itemize}
+    \item{Want an effective interest rate of $\rho$}
+    \item{Expand $\mb A$ and $\vec b$ so that $\mb A = \begin{pmatrix} \vec 1 \\ \vec r \end{pmatrix},\, \vec b = \begin{pmatrix} 1 \\ \rho \end{pmatrix}$.}
+    \item{Solve like before}
+    \item{For $\rho = 0.1$:}
+    \begin{itemize}
+      \item{With shorting: $\bar r = 0.1 +- 0.0785$.}
+      \item{Without shorting: $\bar r = 0.1 +- 0.08$.}
+    \end{itemize}
+    \item{Without shorting no solution for $\rho \not \in [\min(\vec r), \max(\vec r)]$.}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Fixed Target Returns}
+  \centering
+  \includegraphics[width=1.0\textwidth]{../plots/r_sigma}
 \end{frame}
 
 \begin{frame}{Minimum Target Returns}
+  \centering
+  \includegraphics[width=1.0\textwidth]{../plots/delta_r}
 \end{frame}
 
 \begin{frame}{Balancing Volatility & Returns}
+  \begin{itemize}
+    \item{Want to balance volatility with expected returns}
+    \item{Minimize $\alpha \vec w^T \boldsymbol{\sigma} \vec w - (1-\alpha)\vec r$ for $\alpha \in [0, 1]$ instead.}
+    \begin{itemize}
+      \item{$\alpha = 1 \to$ minimize volatility.}
+      \item{$\alpha = 0 \to$ maximize profit.}
+    \end{itemize}
+    \item{Solving for different values of $\alpha$ gives a graph of $\bar r$ vs. $\bar \sigma$ called the efficient frontier.}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{$\bar r$ vs $\bar \sigma$ (no short-selling)}
+  \centering
+  \includegraphics[width=1.0\textwidth]{../plots/r_sigma_alpha_no_ss}
+\end{frame}
+
+\begin{frame}{$\bar r$ vs $\bar \sigma$ (with short-selling)}
+  \centering
+  \includegraphics[width=1.0\textwidth]{../plots/r_sigma_alpha_ss}
 \end{frame}
 
 \begin{frame}

@@ -13,6 +13,21 @@ function [] = make_results()
   disp(lambda.upper)
   disp(lambda.eqlin)
   disp(lambda.ineqlin)
+  
+  [w, x_lambda, r_final, sigma, optim,lambda ] = compute_optimality(1, 0);
+  disp('ASSIGNMENT 2 /wo short-selling')
+  disp('weights:')
+  disp(w)  
+  fprintf('predicted value: %f +- %f\n', r_final, sqrt(sigma))
+  fprintf('optimality condition: %f\n\n',  optim.firstorderopt);
+  disp('x_lambda ([solution lambda.ineqlin])')
+  disp(x_lambda)
+  disp('lambdas: ')
+  disp(lambda.lower)
+  disp(lambda.upper)
+  disp(lambda.eqlin)
+  disp(lambda.ineqlin)
+
 
   disp('')
   disp('ASSIGNMENT 3b')
