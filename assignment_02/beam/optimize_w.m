@@ -3,7 +3,7 @@ function [ b, w, Q, sigma ] = optimize_w( n, w0 )
 %   Detailed explanation goes here
     q = -10*ones(n,1);
     rho = 7800;
-    a = 3e-3;
+    a = 4.5e-3;
     dL = 1/n;
     g = -9.81;
     E = 210e9;

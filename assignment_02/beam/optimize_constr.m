@@ -3,7 +3,7 @@ function [ b, w, Q, sigma ] = optimize_constr( n, b0 )
 %   Detailed explanation goes here
     q = -10*ones(n,1);
     rho = 7800;
-    a = 3e-3;
+    a = 4.5e-3;
     dL = 1/n;
     if 0 == size(b0)
         b0 = 1e-2*ones(n,1);
@@ -28,8 +28,8 @@ function [ b, w, Q, sigma ] = optimize_constr( n, b0 )
     end
 
     function [w] = compute_w(b)
-        M = build_matrix(b);
-        Q = q+a*rho*b*g;
+        M = build_matrix(b)
+        Q = q+a*rho*b*g
         w = M\Q;
     end
     
