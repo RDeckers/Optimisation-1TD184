@@ -1,3 +1,6 @@
 [submodule "assignment_03/report/Documents-Common"]
 	path = assignment_03/report/Documents-Common
 	url = https://www.github.com/RDeckers/Documents-Common
+[submodule "Documents-Common"]
+	path = Documents-Common
+	url = http://www.github.com/RDeckers/Documents-Common

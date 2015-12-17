@@ -1,0 +1,38 @@
+\input{Documents-Common/preamble.tex}
+\linespread{1.2} %easier reading/grading.
+\begin{document}
+1st order neccesary condition: $\nabla f(x) =0$, 2nd order sufficient condition: $\nabla f(x) = 0$ and $H_f(x)$ ps. def. (convex around $x$)
+\\{\bf Steepest Descent:} line search in the direction of $-\nabla f$. Will converge, but linearly.
+\\{\bf Newton's Method:} Approximate the objective with a quad. func. $q(p)$ and solve for $\nabla_p q  = 0 \implies H_f(x)p = -\nablaf(x)$. Step by $p$. Unreliable away from minimun but quad. conv.
+Can replace $H_f$ by $M = H_f+\mu I$ or use $\alpha_k < 1$ when away from minimum to guarentee convergence. {\bf Quasi-Newton} methods do not actually use $H_f$ but approximate by $B$.
+\\{\bf Trust Region:} Use a newton model but only trust it in the region $\abs{p} \leq \Delta_k$. Use the ratio of pred. and comp. reduction $\rho$ and scale $\Delta_k$ depending on it. if $\rho$ to far off reject step.
+\par {\bf Constrained Optimizations}
+\\{\bf Equality constraint:} given a constraint $Ax = b$ we have $A(x+p) =b$ for the next iter. so $p$ must be in the null of $A$. Given a nullspace (projection) matrix $Z$, the cond. become $Z^T\nabla f(x) = 0$ and $Z^TH_fZ$ pos. def.
+First order cond. is equiv to $\nabla f(x) = A^T\vec \lambda$ = linear combination of cols. of $A$, $\lambda$ = lag. mult.
+\\{\bf Non-lin eq. const:} if const = $g(x)$ take $J_g(x_*)$ for $A$ for first-order. Can also use Lagrangian $\mathcal{L} = f(x)-\lambda^Tg$, then 1st = $\nabla_x\mathcal{L} = 0, g = 0$ and $Z^TH_\mathcal{L}Z$ posdef for 2nd.
+\par{\bf Sensitivity:} if we have $g(x) = b$ and $b \to b + \delta b$ then $b + \delta b = g(x+\delta x) \approx\to \nabla g(x)^T\delta x = \delta b$ and $\delta f = \nabla f^T \delta x = [\nabla f = \nabla g \lambda] = \lambda^T\nabla g^T \delta x = \delta b ^T \lambda$.
+\\{\bf Ineq. Const.:} constr = $g(x) \geq 0$. Much more difficult. $KKT$ conditions: $\nabla_x\mathcal{L} = 0, g(x) \geq 0, \lambda \geq 0, \lambda_ig_i(x) = 0, Z_+^T\mathcal{L}Z_+$ posdef. Which correspond to: stationary, feasible, no feasible downhill, complementary slackness, minimum.
+\par{\bf Solving constr: penalty methods: }$f\to f + \rho g^Tg$. For large $\rho$ same answer, but more ill. Can move out of feasreg, $f$ needs to be defined.
+\\{\bf Barrier Method:} for ineq constr, $f + \mu \sum \frac{1}{g_i}$, $f - \mu \sum\log(g_i)$.
+\\{\bf seq. QP:} min. of eqcons is crit. p. of $\mathcal{L} = f-\lambda^T g$, found by solving $\nabla_x \mathcal{L} = [\nabla f- \nabla g \lambda,\, g] = 0$. Solve with newton:
+$$\begin{bmatrix}
+H_\mathcal{L}(x_k, \lambda_k)&&\nabla g(x_k)\\
+\nabla g(x_k)^T && \vec 0
+\end{bmatrix}
+\begin{bmatrix}
+p_k
+\delta_k
+\end{bmatrix}
+= -
+\begin{bmatrix}
+\nabla f(x_k) - \nabla g(x_k)\lambda_k\\
+g(x_k)
+\end{bmatrix}
+$$
+and step $x_k \to x_k+p_k, \lamda_k \to \lambda_k + \delta_k$. Becomes: min $\frac{1}{2}p^TH_\mathcal{L}p+\left(\nabla f -\nabla g\lambda)^Tp$ s.t. $\nabla g^Tp + g=0$.
+\\{\bf active set:} divide into active and inactive constr. move in a smart way between them.
+\par{\bf Linear Programming: }min. $Z = c^Tx$ s.t. $Ax \geq b, x \geq 0$.
+\\{\bf simplex method: } start at a vertex of the feasible region, travel along the edge with steepest descent. repeat.
+\\{\bf interior point: } find a feasible starting point, do steepest descent until a boundary is approached. Use a barrier for constr and slide along when close.
+\\{\bf Duality: }given $LP$ it's dual is min $w = b^Ty$ s.t. $A^T\leq c,\, y\geq 0$. Its solution gives the shadow prices. We have $z \geq w$ with equality in the solution, this also implies that if one is unfeasible, the other is unbound. Because the matrix size also flips, the dual can replace many constraints for many variables which is better.
+\end{document}
